@@ -1,7 +1,14 @@
 
 import { fetchAuth, getDeviceName, run, upload } from '../src';
-import mockDevice from './fixtures/mockDevice';
-import { join } from 'path';
+import createMockDevice from './fixtures/createMockDevice';
+import { join, resolve } from 'path';
+import { readJsonSync, pathExistsSync } from 'fs-extra';
+
+const realDataPath = resolve('real-data.json');
+const useReal = process.env.TSR_ENV === 'real' && pathExistsSync(realDataPath);
+const realData = useReal ? readJsonSync(realDataPath) : {};
+
+let auth = 'asdf';
 
 describe('auth', () => {
 	test('fetchAuth', async () => {
@@ -10,8 +17,11 @@ describe('auth', () => {
 			devices: [],
 			key: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
 			valid: 3600,
+			...realData,
 		});
-		expect(res.status).toBe(401);
+
+		if (useReal) { auth = res.auth; }
+		expect(res.status).toBe(useReal ? 200 : 401);
 	});
 });
 
@@ -20,6 +30,7 @@ describe('devices', () => {
 	let deviceB;
 
 	beforeEach(async () => {
+		const mockDevice = createMockDevice(auth, realData);
 		deviceA = mockDevice(3001);
 		deviceB = mockDevice(3002);
 		await deviceA.start();
@@ -33,13 +44,11 @@ describe('devices', () => {
 
 	test('getDeviceName', async () => {
 		const res = await getDeviceName(deviceA.url);
-		expect(res).toBe('hello');
+		expect(res).toBe(realData.expectedDeviceName || 'hello');
 	});
 
 	test('run', async () => {
-		const res = await run(deviceA.url, {
-			auth: 'asdf',
-		});
+		const res = await run(deviceA.url, { auth });
 		expect(res.trim()).toBe('ok');
 	});
 
@@ -48,7 +57,7 @@ describe('devices', () => {
 			file: join(__dirname, 'fixtures/res.jpg'),
 			type: 'res',
 			clientFile: '/fork.png',
-			auth: 'asdf',
+			auth,
 		});
 		expect(res.trim()).toBe('ok');
 	});
