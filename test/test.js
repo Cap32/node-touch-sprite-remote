@@ -60,6 +60,7 @@ describe('devices', () => {
 	});
 
 	test('stop', async () => {
+		await stop(deviceA.url, { auth });
 		await run(deviceA.url, { auth });
 		await delay(100);
 		const res = await stop(deviceA.url, { auth });
