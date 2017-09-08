@@ -25,6 +25,8 @@ export default function createMockDevice(auth, deviceData) {
 						end('fail', 401);
 					}
 				},
+				'GET /stopLua': () => end('ok'),
+				'GET /status': () => end('f00'),
 				'GET /devicename': () => end('hello'),
 				'POST /upload': () => end('ok'),
 			};

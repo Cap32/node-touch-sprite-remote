@@ -1,5 +1,5 @@
 
-import { fetchAuth, getDeviceName, run, stop, upload } from '../src';
+import { fetchAuth, getDeviceName, run, stop, status, upload } from '../src';
 import createMockDevice from './fixtures/createMockDevice';
 import { join, resolve } from 'path';
 import { readJsonSync, pathExistsSync } from 'fs-extra';
@@ -47,6 +47,16 @@ describe('devices', () => {
 	test('getDeviceName', async () => {
 		const res = await getDeviceName(deviceA.url);
 		expect(res).toBe(realData.expectedDeviceName || 'hello');
+	});
+
+	test('status', async () => {
+		const res1 = await status(deviceA.url, { auth });
+		expect(res1.trim()).toBe('f00');
+
+		await run(deviceA.url, { auth });
+		await delay(100);
+		const res2 = await status(deviceA.url, { auth });
+		expect(res2.trim()).toBe(useReal ? 'f01' : 'f00');
 	});
 
 	test('stop', async () => {
