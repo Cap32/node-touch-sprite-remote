@@ -1,8 +1,9 @@
 
-import { fetchAuth, getDeviceName, run, upload } from '../src';
+import { fetchAuth, getDeviceName, run, stop, upload } from '../src';
 import createMockDevice from './fixtures/createMockDevice';
 import { join, resolve } from 'path';
 import { readJsonSync, pathExistsSync } from 'fs-extra';
+import delay from 'delay';
 
 const realDataPath = resolve('real-data.json');
 const useReal = process.env.TSR_ENV === 'real' && pathExistsSync(realDataPath);
@@ -40,11 +41,19 @@ describe('devices', () => {
 	afterEach(async () => {
 		await deviceA.stop();
 		await deviceB.stop();
+		await delay(1000);
 	});
 
 	test('getDeviceName', async () => {
 		const res = await getDeviceName(deviceA.url);
 		expect(res).toBe(realData.expectedDeviceName || 'hello');
+	});
+
+	test('stop', async () => {
+		await run(deviceA.url, { auth });
+		await delay(100);
+		const res = await stop(deviceA.url, { auth });
+		expect(res.trim()).toBe('ok');
 	});
 
 	test('run', async () => {
