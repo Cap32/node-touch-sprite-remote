@@ -1,5 +1,5 @@
 
-import {
+import TSRemote, {
 	fetchAuth, wrapAuth,
 	getDeviceName, run, stop, status, upload,
 } from '../src';
@@ -114,5 +114,56 @@ describe('devices', () => {
 		});
 		expect(res.trim()).toBe('ok');
 	});
+});
 
+describe('TSRemote', () => {
+	let device;
+	let token;
+	let tsr;
+
+	beforeEach(async () => {
+		const mockDevice = createMockDevice(auth, realData);
+		device = mockDevice(3001);
+		await device.start();
+	});
+
+	afterEach(async () => {
+		await device.stop();
+		await delay(1000);
+	});
+
+	test('new TSRemote()', async () => {
+		tsr = new TSRemote({
+			devices: [],
+			key: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+			valid: 3600,
+			getAuth: async () => token,
+			setAuth: async (auth) => (token = useReal ? auth.auth : 'asdf'),
+			...realData,
+		});
+	});
+
+	test('tsr.stop()', async () => {
+		const res = await tsr.stop(device.url);
+		expect(res.trim()).toBe('ok');
+	});
+
+	test('tsr.status()', async () => {
+		const res = await tsr.status(device.url);
+		expect(res.trim()).toBe('f00');
+	});
+
+	test('tsr.run()', async () => {
+		const res = await tsr.run(device.url);
+		expect(res.trim()).toBe('ok');
+	});
+
+	test('tsr.upload()', async () => {
+		const res = await tsr.upload(device.url, {
+			file: join(__dirname, 'fixtures/res.jpg'),
+			type: 'res',
+			clientFile: '/fork.png',
+		});
+		expect(res.trim()).toBe('ok');
+	});
 });
