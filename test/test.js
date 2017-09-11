@@ -81,12 +81,12 @@ describe('devices', () => {
 	test('status', async () => {
 		jest.setTimeout(30000);
 		const res1 = await status(deviceA.url, { auth });
-		expect(res1.trim()).toBe('f00');
+		expect(res1).toBe('f00');
 
 		await run(deviceA.url, { auth });
 		await delay(100);
 		const res2 = await status(deviceA.url, { auth });
-		expect(res2.trim()).toBe(useReal ? 'f01' : 'f00');
+		expect(res2).toBe(useReal ? 'f01' : 'f00');
 		await stop(deviceA.url, { auth });
 	});
 
@@ -95,14 +95,14 @@ describe('devices', () => {
 		await run(deviceA.url, { auth });
 		await delay(100);
 		const res = await stop(deviceA.url, { auth });
-		expect(res.trim()).toBe('ok');
+		expect(res).toBe('ok');
 	});
 
 	test('run', async () => {
 		await stop(deviceA.url, { auth });
 		await delay(1000);
 		const res = await run(deviceA.url, { auth });
-		expect(res.trim()).toBe('ok');
+		expect(res).toBe('ok');
 	});
 
 	test('upload', async () => {
@@ -112,7 +112,7 @@ describe('devices', () => {
 			clientFile: '/fork.png',
 			auth,
 		});
-		expect(res.trim()).toBe('ok');
+		expect(res).toBe('ok');
 	});
 });
 
@@ -145,17 +145,17 @@ describe('TSRemote', () => {
 
 	test('tsr.stop()', async () => {
 		const res = await tsr.stop(device.url);
-		expect(res.trim()).toBe('ok');
+		expect(res).toBe('ok');
 	});
 
 	test('tsr.status()', async () => {
 		const res = await tsr.status(device.url);
-		expect(res.trim()).toBe('f00');
+		expect(res).toBe('f00');
 	});
 
 	test('tsr.run()', async () => {
 		const res = await tsr.run(device.url);
-		expect(res.trim()).toBe('ok');
+		expect(res).toBe('ok');
 	});
 
 	test('tsr.upload()', async () => {
@@ -164,6 +164,6 @@ describe('TSRemote', () => {
 			type: 'res',
 			clientFile: '/fork.png',
 		});
-		expect(res.trim()).toBe('ok');
+		expect(res).toBe('ok');
 	});
 });

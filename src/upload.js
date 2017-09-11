@@ -14,7 +14,7 @@ export default async function upload(target, options = {}) {
 	const clientFilePath = clientFile || `/${parse(file).base}`;
 	const { dir, base } = parse(clientFilePath);
 	const stat = await lstat(file);
-	return new Promise((resolve, reject) => {
+	const res = await new Promise((resolve, reject) => {
 		createReadStream(file).pipe(
 			request({
 				url: `${target}/upload`,
@@ -34,4 +34,5 @@ export default async function upload(target, options = {}) {
 			})
 		);
 	});
+	return res.trim();
 }
