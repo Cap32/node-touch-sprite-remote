@@ -4,15 +4,15 @@ import { parse, extname } from 'path';
 import request from 'request';
 
 export default async function upload(target, options = {}) {
-	const { clientFile, file, type, auth } = options;
+	const { remoteFile, file, type, auth } = options;
 	const root = (function () {
 		if (type) { return type; }
 		const luaExts = ['.lua', '.luac', '.txt'];
 		const ext = extname(file);
 		return luaExts.indexOf(ext) > -1 ? 'lua' : 'res';
 	}());
-	const clientFilePath = clientFile || `/${parse(file).base}`;
-	const { dir, base } = parse(clientFilePath);
+	const remoteFilePath = remoteFile || `/${parse(file).base}`;
+	const { dir, base } = parse(remoteFilePath);
 	const stat = await lstat(file);
 	const res = await new Promise((resolve, reject) => {
 		createReadStream(file).pipe(

@@ -109,7 +109,7 @@ describe('devices', () => {
 		const res = await upload(deviceB.url, {
 			file: join(__dirname, 'fixtures/res.jpg'),
 			type: 'res',
-			clientFile: '/fork.png',
+			remoteFile: '/fork.png',
 			auth,
 		});
 		expect(res).toBe('ok');
@@ -162,7 +162,7 @@ describe('TSRemote', () => {
 		const res = await tsr.upload(device.url, {
 			file: join(__dirname, 'fixtures/res.jpg'),
 			type: 'res',
-			clientFile: '/fork.png',
+			remoteFile: '/fork.png',
 		});
 		expect(res).toBe('ok');
 	});

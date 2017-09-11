@@ -20,6 +20,7 @@ export async function fetchAuth(options = {}) {
 	});
 	if (res.valid) { res.expiresIn = ~~(res.valid / 1000); }
 	if (res.remainder_token) { res.remainderToken = res.remainder_token; }
+	if (res.auth) { res.token = res.auth; }
 	return res;
 };
 
