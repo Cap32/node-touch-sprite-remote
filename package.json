@@ -1,7 +1,7 @@
 {
   "name": "touch-sprite-remote",
   "description": "Touch script remote API for Node.js",
-  "version": "0.0.0",
+  "version": "0.0.0-0",
   "main": "lib/index",
   "files": [
     "*.md",
@@ -18,9 +18,14 @@
   "author": "Cap32",
   "repository": "cantonjs/node-touch-sprite-remote",
   "engines": {
-    "node": ">=4.2.1"
+    "node": ">=4"
   },
-  "keywords": [],
+  "keywords": [
+    "touch-sprite",
+    "touch-sprite-api",
+    "nodejs",
+    "api"
+  ],
   "license": "MIT",
   "dependencies": {
     "empty-functions": "^1.0.2",
