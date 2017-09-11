@@ -45,7 +45,7 @@ import { fetchAuth, run, status } from 'touch-sprite-remote';
   console.log('run:', runResult); /* "ok" or "fail" */
 
   const statusResult = await status('http://192.168.1.23:50005', { auth });
-  console.log('status:', statusResult); /* "ok" or "fail" */
+  console.log('status:', statusResult); /* "f00", "f01" or "f02" */
 }());
 ```
 
@@ -72,7 +72,7 @@ Fetch auth / access token.
   message: 'error message if status is not 200',
   time: 1422930265, // current unix timestamp
   auth: 'auth / access token',
-  valid: 3600000, // valid time
+  expiresIn: 3600, // expires in second
   remainderToken: 4, // remainder token
 }
 ```
