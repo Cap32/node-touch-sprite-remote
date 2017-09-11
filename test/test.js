@@ -1,5 +1,8 @@
 
-import { fetchAuth, getDeviceName, run, stop, status, upload } from '../src';
+import {
+	fetchAuth, wrapAuth,
+	getDeviceName, run, stop, status, upload,
+} from '../src';
 import createMockDevice from './fixtures/createMockDevice';
 import { join, resolve } from 'path';
 import { readJsonSync, pathExistsSync } from 'fs-extra';
@@ -23,6 +26,32 @@ describe('auth', () => {
 
 		if (useReal) { auth = res.auth; }
 		expect(res.status).toBe(useReal ? 200 : 401);
+	});
+
+	test('wrapAuth', async () => {
+		jest.setTimeout(30000);
+		let savedToken;
+		const mockGetAuth = jest.fn(() => savedToken);
+		const mockSetAuth = jest.fn((res) => {
+			savedToken = res.auth || 'asdf';
+		});
+		const fetchOptions = {
+			devices: [],
+			key: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+			valid: 3600,
+			...realData,
+		};
+
+		const token1 = await wrapAuth(fetchOptions, mockGetAuth, mockSetAuth);
+		useReal && expect(typeof token1).toBe('string');
+		expect(mockGetAuth.mock.calls.length).toBe(1);
+		expect(mockSetAuth.mock.calls.length).toBe(1);
+		expect(typeof mockSetAuth.mock.calls[0][0].status).toBe('number');
+
+		const token2 = await wrapAuth(fetchOptions, mockGetAuth, mockSetAuth);
+		useReal && expect(typeof token2).toBe('string');
+		expect(mockGetAuth.mock.calls.length).toBe(2);
+		expect(mockSetAuth.mock.calls.length).toBe(1);
 	});
 });
 
@@ -50,6 +79,7 @@ describe('devices', () => {
 	});
 
 	test('status', async () => {
+		jest.setTimeout(30000);
 		const res1 = await status(deviceA.url, { auth });
 		expect(res1.trim()).toBe('f00');
 
@@ -57,6 +87,7 @@ describe('devices', () => {
 		await delay(100);
 		const res2 = await status(deviceA.url, { auth });
 		expect(res2.trim()).toBe(useReal ? 'f01' : 'f00');
+		await stop(deviceA.url, { auth });
 	});
 
 	test('stop', async () => {
@@ -68,6 +99,8 @@ describe('devices', () => {
 	});
 
 	test('run', async () => {
+		await stop(deviceA.url, { auth });
+		await delay(1000);
 		const res = await run(deviceA.url, { auth });
 		expect(res.trim()).toBe('ok');
 	});

@@ -1090,6 +1090,10 @@ ecc-jsbn@~0.1.1:
   dependencies:
     jsbn "~0.1.0"
 
+empty-functions@^1.0.2:
+  version "1.0.2"
+  resolved "http://registry.npm.taobao.org/empty-functions/download/empty-functions-1.0.2.tgz#020fcfcd61f9881afe5b975ae8a3477f8dc9ac3a"
+
 errno@^0.1.4:
   version "0.1.4"
   resolved "http://registry.npm.taobao.org/errno/download/errno-0.1.4.tgz#b896e23a9e5e8ba33871fc996abd3635fc9a1c7d"

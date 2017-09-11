@@ -8,8 +8,9 @@
     "lib"
   ],
   "scripts": {
-    "start": "yarn test -- --watchAll",
+    "start": "yarn test -- --watch",
     "test": "cross-env NODE_ENV=development jest",
+    "test:real": "cross-env NODE_ENV=development TSR_ENV=real jest",
     "prebuild": "rimraf lib",
     "build": "babel src -d lib",
     "preversion": "yarn test && yarn build"
@@ -22,6 +23,7 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
+    "empty-functions": "^1.0.2",
     "fs-extra": "^4.0.1",
     "request": "^2.81.0",
     "request-promise-native": "^1.0.4"
