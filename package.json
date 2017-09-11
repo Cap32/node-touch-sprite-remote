@@ -16,7 +16,7 @@
     "preversion": "yarn test && yarn build"
   },
   "author": "Cap32",
-  "repository": "cantonjs/node-touch-sprite-remote",
+  "repository": "Cap32/node-touch-sprite-remote",
   "engines": {
     "node": ">=4"
   },
