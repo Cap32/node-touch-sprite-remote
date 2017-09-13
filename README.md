@@ -207,6 +207,11 @@ let cache;
 }());
 ```
 
+###### Additional instance methods
+
+- `refreshToken()`: Force refresh token
+- `addDevices(device[, ...device])`: Add device. Will refresh token
+- `removeDevices(device[, ...device])`: Add device. Will refresh token
 
 
 <a name="license"></a>
