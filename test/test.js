@@ -166,4 +166,66 @@ describe('TSRemote', () => {
 		});
 		expect(res).toBe('ok');
 	});
+
+	test('tsr.refreshToken()', async () => {
+		const getAuth = jest.fn(async () => token);
+		tsr = new TSRemote({
+			devices: [],
+			key: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+			valid: 3600,
+			getAuth,
+			setAuth: async (auth) => (token = useReal ? auth.auth : 'asdf'),
+			...realData,
+		});
+		await tsr.status(device.url);
+		expect(getAuth.mock.calls.length).toBe(0);
+		await tsr.status(device.url);
+		expect(getAuth.mock.calls.length).toBe(1);
+		tsr.refreshToken();
+		await tsr.status(device.url);
+		expect(getAuth.mock.calls.length).toBe(1);
+	});
+
+	test('tsr.addDevices()', async () => {
+		if (useReal) { return; }
+		const getAuth = jest.fn(async () => token);
+		tsr = new TSRemote({
+			devices: [],
+			key: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+			valid: 3600,
+			getAuth,
+			setAuth: async (auth) => (token = useReal ? auth.auth : 'asdf'),
+			...realData,
+		});
+		await tsr.status(device.url);
+		expect(getAuth.mock.calls.length).toBe(0);
+		await tsr.status(device.url);
+		expect(getAuth.mock.calls.length).toBe(1);
+		tsr.addDevices('asdf');
+		await tsr.status(device.url);
+		expect(getAuth.mock.calls.length).toBe(1);
+		expect(tsr._fetchOptions.devices).toEqual(['asdf']);
+	});
+
+	test('tsr.removeDevices()', async () => {
+		if (useReal) { return; }
+		const getAuth = jest.fn(async () => token);
+		tsr = new TSRemote({
+			devices: ['foo', 'bar'],
+			key: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+			valid: 3600,
+			getAuth,
+			setAuth: async (auth) => (token = useReal ? auth.auth : 'asdf'),
+			...realData,
+		});
+		await tsr.status(device.url);
+		expect(getAuth.mock.calls.length).toBe(0);
+		await tsr.status(device.url);
+		expect(getAuth.mock.calls.length).toBe(1);
+		tsr.removeDevices('bar');
+		await tsr.status(device.url);
+		expect(getAuth.mock.calls.length).toBe(1);
+		expect(tsr._fetchOptions.devices).toEqual(['foo']);
+	});
+
 });
