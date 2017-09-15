@@ -30,6 +30,7 @@
   "dependencies": {
     "empty-functions": "^1.0.2",
     "fs-extra": "^4.0.1",
+    "get-my-ip": "^0.0.1",
     "request": "^2.81.0",
     "request-promise-native": "^1.0.4"
   },

@@ -2,6 +2,7 @@
 import { lstat, createReadStream } from 'fs-extra';
 import { parse, extname } from 'path';
 import request from 'request';
+import { ensureTarget } from './utils';
 
 export default async function upload(target, options = {}) {
 	const { remoteFile, file, type, auth } = options;
@@ -17,7 +18,7 @@ export default async function upload(target, options = {}) {
 	const res = await new Promise((resolve, reject) => {
 		createReadStream(file).pipe(
 			request({
-				url: `${target}/upload`,
+				url: `${ensureTarget(target)}/upload`,
 				method: 'POST',
 				headers: {
 					auth,
