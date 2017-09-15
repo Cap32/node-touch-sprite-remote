@@ -43,10 +43,10 @@ import { fetchAuth, run, status } from 'touch-sprite-remote';
     key: '<my_key>',
     devices: ['<my_device_id>'],
   });
-  const runResult = await run('http://192.168.1.23:50005', { auth });
+  const runResult = await run('192.168.1.23', { auth });
   console.log('run:', runResult); /* "ok" or "fail" */
 
-  const statusResult = await status('http://192.168.1.23:50005', { auth });
+  const statusResult = await status('192.168.1.23', { auth });
   console.log('status:', statusResult); /* "f00", "f01" or "f02" */
 }());
 ```
@@ -89,7 +89,7 @@ Get device name.
 
 ###### Arguments
 
-- `target` (String): Device host target. eg: 'http://192.168.1.23:50005'
+- `target` (String): Device host target. eg: '192.168.1.23'
 
 ###### Returns
 
@@ -105,7 +105,7 @@ Get status.
 
 ###### Arguments
 
-- `target` (String): Device host target. eg: 'http://192.168.1.23:50005'
+- `target` (String): Device host target. eg: '192.168.1.23'
 - `options` (Object): Defines `options.auth` for access token (required)
 
 ###### Returns
@@ -126,7 +126,7 @@ Run script.
 
 ###### Arguments
 
-- `target` (String): Device host target. eg: 'http://192.168.1.23:50005'
+- `target` (String): Device host target. eg: '192.168.1.23'
 - `options` (Object): Defines `options.auth` for access token (required)
 
 ###### Returns
@@ -143,7 +143,7 @@ Stop script.
 
 ###### Arguments
 
-- `target` (String): Device host target. eg: 'http://192.168.1.23:50005'
+- `target` (String): Device host target. eg: '192.168.1.23'
 - `options` (Object): Defines `options.auth` for access token (required)
 
 ###### Returns
@@ -160,7 +160,7 @@ Upload file.
 
 ###### Arguments
 
-- `target` (String): Device host target. eg: 'http://192.168.1.23:50005'
+- `target` (String): Device host target. eg: '192.168.1.23'
 - `options` (Object):
   + `auth` (String): Access token (required)
   + `file` (String): Local file path
@@ -202,8 +202,8 @@ let cache;
   });
 
   /* no need `auth` option */
-  const runResult = await tsr.run('http://192.168.1.23:50005');
-  const statusResult = await tsr.status('http://192.168.1.23:50005');
+  const runResult = await tsr.run('192.168.1.23');
+  const statusResult = await tsr.status('192.168.1.23');
 }());
 ```
 
