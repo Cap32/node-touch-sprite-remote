@@ -6,7 +6,7 @@ const AUTH_API = 'https://storeauth.touchsprite.com/api/openapi';
 
 export async function fetchAuth(options = {}) {
 	const { key, devices, valid, expiresIn } = options;
-	const res = request({
+	const res = await request({
 		url: AUTH_API,
 		method: 'POST',
 		json: true,
