@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/Cap32/node-touch-sprite-remote.svg?branch=master)](https://travis-ci.org/Cap32/node-touch-sprite-remote) [![License](https://img.shields.io/badge/license-MIT_License-blue.svg?style=flat)](https://github.com/Cap32/node-touch-sprite-remote/blob/master/LICENSE.md)
 
-Touch script remote API for Node.js
+Touch script remote API for Node.js (Unofficial)
 
 
 ## Table of Contents
